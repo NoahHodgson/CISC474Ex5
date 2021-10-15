@@ -18,6 +18,24 @@ app.get('/api/v1/listUsers', function (req, res) {
         res.end(data);
     });
 });
+
+app.put('/api/v1/deleteUser', function (req, res) {
+    fs.readFile(__dirname + "/data/" + "users.json", 'utf8', function (err, data) {
+        data = JSON.parse(data);
+        delete data["user" + req.query["user"]];
+        fs.appendFile(__dirname + "/data/users.json", JSON.stringify(data), err => {
+            if (err) {
+                console.error(err);
+                return;
+            }
+        });
+        console.log(data);
+        res.end(JSON.stringify(data));
+    });
+});
+
+
+
 app.delete('/api/v1/deleteUser', function (req, res) {
     fs.readFile(__dirname + "/data/" + "users.json", 'utf8', function (err, data) {
         data = JSON.parse(data);
